@@ -48,8 +48,7 @@ const Router = {
 				}
 				break;
 		}
-		// console.log(pageElement);
-		// console.log(`route: ${route}`);
+
 		if (pageElement) {
 			// document.querySelector("main").innerHTML = "";
 			// document.querySelector("main").appendChild(pageElement);

@@ -1,4 +1,10 @@
 export class OrderPage extends HTMLElement {
+	#user = {
+		name: "",
+		phone: "",
+		email: "",
+	};
+
 	constructor() {
 		super();
 
@@ -54,6 +60,35 @@ export class OrderPage extends HTMLElement {
                 <p class='price-total'>$${total.toFixed(2)}</p>
             </li>                
         `;
+		}
+
+		this.setFormBindings(this.root.querySelector("form"));
+	}
+
+	setFormBindings(form) {
+		if (form) {
+			form.addEventListener("submit", (event) => {
+				event.preventDefault();
+				alert(`Thanks for your order ${this.#user.name}`);
+				this.#user.name = "";
+				this.#user.email = "";
+				this.#user.phone = "";
+				// TODO send data to the server
+			});
+
+			// Set double data binding
+			this.#user = new Proxy(this.#user, {
+				set(target, property, value) {
+					target[property] = value;
+					form.elements[property].value = value;
+					return true;
+				},
+			});
+			Array.from(form.elements).forEach((element) => {
+				element.addEventListener("change", (event) => {
+					this.#user[element.name] = element.value;
+				});
+			});
 		}
 	}
 }
